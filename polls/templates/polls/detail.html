@@ -1,0 +1,16 @@
+<form action="{% url 'polls:vote' question.id %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend><h1>{{ question.question_text }}</h1></legend>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        {% for choice in question.choice_set.all %}
+        <!-- los name de cada botón de radio es "choice". 
+        Eso significa, cuando alguien selecciona uno de los botones de radio y envía el formulario, 
+        enviará el Datos POST choice=# donde # es la ID de la opción seleccionada-->
+        <!--forloop.counter indica cuántas veces el for la etiqueta se ha ido a través de su bucle-->
+            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+            <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+        {% endfor %}
+    </fieldset>
+    <input type="submit" value="Vote">
+    </form>
